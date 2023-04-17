@@ -17,5 +17,20 @@ router.get('/:id', async function (req, res) {
     })
 })
 
+router.get('/encontrarCiudad/:id', async function (req, res) {
+
+    const { id } = req.params
+    const ciudades = await bdClient.query(`
+        SELECT * FROM public.cities where "ID_CITY"='${id}'
+    `)
+    if (ciudades.rows.length === 0) {
+        res.status(404).send('No encontré la ciudad')
+    }
+    res.status(200).json({
+        ciudades: ciudades.rows
+    })
+})
+
+
 
 module.exports = router;
